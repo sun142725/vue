@@ -1,25 +1,25 @@
 /* @flow */
-
+//  虚拟dom节点构造函数
 export default class VNode {
   tag: string | void;
   data: VNodeData | void;
-  children: ?Array<VNode>;
+  children: ?Array<VNode>;  //
   text: string | void;
   elm: Node | void;
   ns: string | void;
-  context: Component | void; // rendered in this component's scope
+  context: Component | void; // rendered in this component's scope  在此组件的范围内呈现context
   key: string | number | void;
   componentOptions: VNodeComponentOptions | void;
-  componentInstance: Component | void; // component instance
-  parent: VNode | void; // component placeholder node
+  componentInstance: Component | void; // component instance  组件实例
+  parent: VNode | void; // component placeholder node  组件占位节点
 
   // strictly internal
-  raw: boolean; // contains raw HTML? (server only)
-  isStatic: boolean; // hoisted static node
+  raw: boolean; // contains raw HTML? (server only)  是否包含原始html（仅服务器端）
+  isStatic: boolean; // hoisted static node  提升静态节点
   isRootInsert: boolean; // necessary for enter transition check
-  isComment: boolean; // empty comment placeholder?
-  isCloned: boolean; // is a cloned node?
-  isOnce: boolean; // is a v-once node?
+  isComment: boolean; // empty comment placeholder?  是否清空注释占位
+  isCloned: boolean; // is a cloned node?  是不是拷贝的
+  isOnce: boolean; // is a v-once node?  是否执行一次
   asyncFactory: Function | void; // async component factory function
   asyncMeta: Object | void;
   isAsyncPlaceholder: boolean;
@@ -71,6 +71,7 @@ export default class VNode {
   }
 }
 
+//  创建新的虚拟dom节点
 export const createEmptyVNode = (text: string = '') => {
   const node = new VNode()
   node.text = text
@@ -78,14 +79,18 @@ export const createEmptyVNode = (text: string = '') => {
   return node
 }
 
+//  创建新的虚拟dom节点  不清空注释占位
 export function createTextVNode (val: string | number) {
   return new VNode(undefined, undefined, undefined, String(val))
 }
 
 // optimized shallow clone
+// 优化的浅拷贝
 // used for static nodes and slot nodes because they may be reused across
+// 使用静态节点和插槽节点 因为他们可以
 // multiple renders, cloning them avoids errors when DOM manipulations rely
 // on their elm reference.
+//  虚拟dom节点构造函数
 export function cloneVNode (vnode: VNode): VNode {
   const cloned = new VNode(
     vnode.tag,

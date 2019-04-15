@@ -1,6 +1,6 @@
 /* @flow */
 
-import config from '../config'
+import config from '../config'  //  配置文件包括生命周期等一些配置
 import { initProxy } from './proxy'
 import { initState } from './state'
 import { initRender } from './render'

@@ -20,11 +20,13 @@ import {
   simpleNormalizeChildren
 } from './helpers/index'
 
-const SIMPLE_NORMALIZE = 1
-const ALWAYS_NORMALIZE = 2
+const SIMPLE_NORMALIZE = 1  // 简单的正常化
+const ALWAYS_NORMALIZE = 2  //  总是正常化
 
 // wrapper function for providing a more flexible interface
+// 用于提供一个更灵活的界面包装函数
 // without getting yelled at by flow
+//  没有被流
 export function createElement (
   context: Component,
   tag: any,
@@ -33,6 +35,7 @@ export function createElement (
   normalizationType: any,
   alwaysNormalize: boolean
 ): VNode | Array<VNode> {
+  //  判断data是数组或者基础类型   string/number/symbol/boolean
   if (Array.isArray(data) || isPrimitive(data)) {
     normalizationType = children
     children = data
@@ -41,6 +44,12 @@ export function createElement (
   if (isTrue(alwaysNormalize)) {
     normalizationType = ALWAYS_NORMALIZE
   }
+  /**  context 组件
+   *   tag  标签
+   *   data  data || undefined
+   *   children  children || data
+   *   normalizationType  normalizationType || children || 2
+   */
   return _createElement(context, tag, data, children, normalizationType)
 }
 
@@ -60,17 +69,20 @@ export function _createElement (
     return createEmptyVNode()
   }
   // object syntax in v-bind
+  //  data !== undefined && data !== null
   if (isDef(data) && isDef(data.is)) {
     tag = data.is
   }
   if (!tag) {
     // in case of component :is set to falsy value
+    // 如果是组件  返回空节点
     return createEmptyVNode()
   }
   // warn against non-primitive key
   if (process.env.NODE_ENV !== 'production' &&
     isDef(data) && isDef(data.key) && !isPrimitive(data.key)
   ) {
+    // 非生产环境 && data.key不是基础类型之一
     if (!__WEEX__ || !('@binding' in data.key)) {
       warn(
         'Avoid using non-primitive value as key, ' +
@@ -128,6 +140,10 @@ export function _createElement (
     return createEmptyVNode()
   }
 }
+
+
+
+
 
 function applyNS (vnode, ns, force) {
   vnode.ns = ns
