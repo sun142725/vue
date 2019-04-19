@@ -19,8 +19,10 @@ export type Config = {
   performance: boolean;
   //  是否是开发模式
   devtools: boolean;
+  //  err为错误信息 vm 错误组件 info报错所在的生命周期
   errorHandler: ?(err: Error, vm: Component, info: string) => void;
   warnHandler: ?(msg: string, vm: Component, trace: string) => void;
+  //  忽略元素 [string || RegExp]
   ignoredElements: Array<string | RegExp>;
   keyCodes: { [key: string]: number | Array<number> };
 

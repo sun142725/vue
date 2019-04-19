@@ -17,12 +17,18 @@ export function isReserved (str: string): boolean {
 
 /**
  * Define a property.
+ * 定义一个原型
+ * Object.defineProperty https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+ * 默认情况下，使用 Object.defineProperty() 添加的属性值是不可修改的
  */
 export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
   Object.defineProperty(obj, key, {
     value: val,
+    //  enumerable 当且仅当该属性的enumerable为true时
     enumerable: !!enumerable,
+    //  writable 为true value才能被改变
     writable: true,
+    // configurable为true才可修改删除
     configurable: true
   })
 }

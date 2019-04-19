@@ -16,28 +16,34 @@ import {
   isServerRendering
 } from '../util/index'
 
+//  获取arrayMethods上的keys
 const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
 
 /**
  * In some cases we may want to disable observation inside a component's
+ * 一些情况下 我们可以禁用观察组件内部的
  * update computation.
+ * 更新计算
  */
+//  是否观察开关
 export let shouldObserve: boolean = true
-
+//  改变shouldObserve
 export function toggleObserving (value: boolean) {
   shouldObserve = value
 }
 
 /**
- * Observer class that is attached to each observed
- * object. Once attached, the observer converts the target
- * object's property keys into getter/setters that
- * collect dependencies and dispatch updates.
+ * Observer class that is attached to each observed object.
+ * 观察 类 附加到每一个被观察对象
+ * Once attached, the observer converts the target object's property keys into getter/setters
+ * 一次附加          观察者重写目标对象的keys 的get/set方法
+ * that collect dependencies and dispatch updates.
+ * 他收集依赖并且派发更新
  */
 export class Observer {
   value: any;
   dep: Dep;
-  vmCount: number; // number of vms that have this object as root $data
+  vmCount: number; // number of vms that have this object as root $data  对象根数据
 
   constructor (value: any) {
     this.value = value

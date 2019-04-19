@@ -97,6 +97,7 @@ export default class Watcher {
 
   /**
    * Evaluate the getter, and re-collect dependencies.
+   * 评估geter  并且重新收集依赖
    */
   get () {
     pushTarget(this)

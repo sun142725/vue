@@ -82,8 +82,9 @@ export function _createElement (
   if (process.env.NODE_ENV !== 'production' &&
     isDef(data) && isDef(data.key) && !isPrimitive(data.key)
   ) {
-    // 非生产环境 && data.key不是基础类型之一
+    // 非生产环境 && data.key不是基础类型之一 走这
     if (!__WEEX__ || !('@binding' in data.key)) {
+      //  避免使用非基元值作为键，而是使用字符串/数字值。
       warn(
         'Avoid using non-primitive value as key, ' +
         'use string/number value instead.',
@@ -133,6 +134,7 @@ export function _createElement (
   if (Array.isArray(vnode)) {
     return vnode
   } else if (isDef(vnode)) {
+    //  如果存在ns， 拷贝
     if (isDef(ns)) applyNS(vnode, ns)
     if (isDef(data)) registerDeepBindings(data)
     return vnode
@@ -144,7 +146,7 @@ export function _createElement (
 
 
 
-
+//  实现虚拟dom复制
 function applyNS (vnode, ns, force) {
   vnode.ns = ns
   if (vnode.tag === 'foreignObject') {
