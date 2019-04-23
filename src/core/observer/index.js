@@ -65,7 +65,9 @@ export class Observer {
   /**
    * Walk through all properties and convert them into
    * getter/setters. This method should only be called when
-   * value type is Object.
+   * value type is Object.便利是所有的属性并将其转换为getter/setter
+   * 这个方法只有当值是对象的时候调用
+   *
    */
   walk (obj: Object) {
     const keys = Object.keys(obj)
@@ -76,6 +78,7 @@ export class Observer {
 
   /**
    * Observe a list of Array items.
+   * 观察数组列表的每一条
    */
   observeArray (items: Array<any>) {
     for (let i = 0, l = items.length; i < l; i++) {
@@ -121,9 +124,13 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (
+      //  观察开关
     shouldObserve &&
+        //  是否是服务端渲染
     !isServerRendering() &&
+        // 数组或者javascript对象
     (Array.isArray(value) || isPlainObject(value)) &&
+    //  Object.isExtensible()判断一个对象是否是可扩展的
     Object.isExtensible(value) &&
     !value._isVue
   ) {
@@ -139,20 +146,30 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
  * Define a reactive property on an Object.
  */
 export function defineReactive (
-  obj: Object,
-  key: string,
-  val: any,
+  obj: Object, // 对象
+  key: string, // 对象的key
+  val: any, //  属性的value
   customSetter?: ?Function,
   shallow?: boolean
 ) {
   const dep = new Dep()
 
   const property = Object.getOwnPropertyDescriptor(obj, key)
+    /**
+     * var obj = {a:1}
+     * Object.getOwnPropertyDescriptor(obj, 'a')
+     * configurable: true  属性可被改变
+     * enumerable: true
+     * value: 1
+     * writable: true
+     * 判断是属性否存在与该对象上，不存在返回undefined 存在则返回属性的描述符对象  如上
+     * */
   if (property && property.configurable === false) {
     return
   }
 
   // cater for pre-defined getter/setters
+    //  先面向属性本身的getter/setter
   const getter = property && property.get
   const setter = property && property.set
   if ((!getter || setter) && arguments.length === 2) {
@@ -165,6 +182,7 @@ export function defineReactive (
     configurable: true,
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val
+        //
       if (Dep.target) {
         dep.depend()
         if (childOb) {
@@ -269,7 +287,9 @@ export function del (target: Array<any> | Object, key: any) {
 
 /**
  * Collect dependencies on array elements when the array is touched, since
+ * 当一个数组元素被触及时手机这个数组元素的依赖
  * we cannot intercept array element access like property getters.
+ * 我们不能拦截数组元素property上的getter
  */
 function dependArray (value: Array<any>) {
   for (let e, i = 0, l = value.length; i < l; i++) {

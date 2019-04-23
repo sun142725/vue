@@ -20,17 +20,19 @@ export default class Dep {
     this.id = uid++
     this.subs = []
   }
-
+//  添加监听
   addSub (sub: Watcher) {
     this.subs.push(sub)
   }
-
+//  移除监听 remove函数查找当前元素在数组中的位置，然后splice删除
   removeSub (sub: Watcher) {
     remove(this.subs, sub)
   }
 
   depend () {
     if (Dep.target) {
+      //  dep.target 代表当前对象的watcher
+        //  当前操作会判断订阅数组中是否存在该订阅，避免重复订阅
       Dep.target.addDep(this)
     }
   }

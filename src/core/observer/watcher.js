@@ -69,8 +69,10 @@ export default class Watcher {
     this.active = true
     this.dirty = this.lazy // for lazy watchers
     this.deps = []
+      //  dep订阅数组
     this.newDeps = []
     this.depIds = new Set()
+      //  dep订阅数组id => uid
     this.newDepIds = new Set()
     this.expression = process.env.NODE_ENV !== 'production'
       ? expOrFn.toString()
@@ -125,6 +127,7 @@ export default class Watcher {
 
   /**
    * Add a dependency to this directive.
+   * 添加依赖项到这个指令
    */
   addDep (dep: Dep) {
     const id = dep.id
@@ -139,6 +142,7 @@ export default class Watcher {
 
   /**
    * Clean up for dependency collection.
+   * 清空依赖收集
    */
   cleanupDeps () {
     let i = this.deps.length

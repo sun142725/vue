@@ -35,14 +35,20 @@ if (inBrowser) {
 }
 
 // this needs to be lazy-evaled because vue may be required before
+//  这里需要懒加载 因为必须加载vue
 // vue-server-renderer can set VUE_ENV
+//
 let _isServer
+//  判断是否是服务端渲染
 export const isServerRendering = () => {
   if (_isServer === undefined) {
     /* istanbul ignore if */
+    //  非浏览器环境  非weex环境  不存在全局对象
     if (!inBrowser && !inWeex && typeof global !== 'undefined') {
       // detect presence of vue-server-renderer and avoid
+        // 检测vue-server-render的存在避免重复
       // Webpack shimming the process
+        //  webpack 处理这个过程
       _isServer = global['process'] && global['process'].env.VUE_ENV === 'server'
     } else {
       _isServer = false
