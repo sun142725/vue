@@ -121,6 +121,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
     return
   }
   let ob: Observer | void
+    //  检查value是否有__ob__属性 并且该属性的类型为Observer
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (
@@ -169,7 +170,7 @@ export function defineReactive (
   }
 
   // cater for pre-defined getter/setters
-    //  先面向属性本身的getter/setter
+    //  检查对象原型上是否已经赋予getter/setter 取出
   const getter = property && property.get
   const setter = property && property.set
   if ((!getter || setter) && arguments.length === 2) {
